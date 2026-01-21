@@ -66,7 +66,6 @@ Below is an example of a simple simulation where CIPAL is trained with three dif
 import cipal
 ```
 
-
 ```python
 # Repeat each utterance 30 times
 input = [
@@ -76,34 +75,16 @@ input = [
 ] * 30
 ```
 
-
 ```python
 ltm = cipal.new_ltm()
 cipal.learn(input, ltm)
 ```
 
-
 ```python
 cipal.ltm_to_df(ltm)
 ```
 
-
-
-
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -217,37 +198,17 @@ cipal.ltm_to_df(ltm)
 </table>
 </div>
 
-
-
-
 ```python
 # Create a list of bigrams for testing the model
 bigrams = ["I t w 0 z", "I t D e@", "w 0 z D e@", "D e@ I t", "w 0 z I t"]
 ```
-
 
 ```python
 # Process the test items without learning
 cipal.process(bigrams, ltm)
 ```
 
-
-
-
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
