@@ -8,11 +8,9 @@ We also recommend that you include a copy of the CIPAL code used in any publishe
 
 All project dependencies are managed using [uv](https://docs.astral.sh/uv/).
 
-## Switching from Julia to Python
+## Why did we port CIPAL to Python?
 
-All future updates to CIPAL will be implemented in Python and uploaded to this repository.
-
-The original version of CIPAL presented in [Jessop et al. (2025)](https://doi.org/10.1037/rev0000564) was implemented in [Julia](https://julialang.org). We decided to use Julia since it offers a familiar high-level syntax (similar to [*R*](https://www.r-project.org/) or [Python](https://www.python.org/)) for writing [fast and efficient code](https://julialang.org/benchmarks/). However, Julia remains a niche language focused on numeric and scientific computing, with a small community of users and developers. In comparison, Python is one of the most widely used programming languages (see the latest [TIOBE index](https://www.tiobe.com/tiobe-index/)), with a large community working on improving the language and developing specialist packages for modelling and data analysis. Recent updates to Python have also led to significant performance improvements, making it possible to run simulations quickly in CIPAL, even with large datasets (see Benchmarks below). Therefore, we decided to port CIPAL to Python to make the code more transparent and accessible, allowing more researchers to use, scrutinize, adapt, or extend the architecture. We hope the contents of this repository will help others to understand CIPAL and the theory-driven testing methodology.
+The original version of CIPAL presented in [Jessop et al. (2025)](https://doi.org/10.1037/rev0000564) was implemented in [Julia](https://julialang.org). We decided to use Julia since it offers a familiar high-level syntax (similar to [*R*](https://www.r-project.org/) or [Python](https://www.python.org/)) for writing [fast and efficient code](https://julialang.org/benchmarks/). However, Julia remains a niche language focused on numeric and scientific computing, with a small community of users and developers. In comparison, Python is one of the most widely used programming languages (see the latest [TIOBE index](https://www.tiobe.com/tiobe-index/)), with a large community working on improving the language and developing specialist packages for modelling and data analysis. Recent updates to Python have also led to significant performance improvements, making it possible to run simulations quickly in CIPAL, even with large datasets (see Benchmarks below). Therefore, we decided to port CIPAL to Python to make the code more transparent and accessible, allowing more researchers to use, scrutinize, adapt, or extend the architecture. We hope the contents of this repository will help others to understand CIPAL and the theory-driven testing methodology. All future updates to CIPAL will be implemented in Python and uploaded to this repository.
 
 ## Changes to CIPAL since version 1.0.0
 
@@ -23,7 +21,7 @@ The code for CIPAL v1.0.0 is included in the [supplemental materials](https://os
 - We renamed the processing time variables; they are now prefixed with "pt" rather than "sop" (e.g., `sop_used` → `pt_used`).
 - We removed the option to reduce the processing times of unused chunks from the `learn` function, since chunk decay is not part of the core CIPAL theory. This simplifies the code, as any (non-zero) value supplied to the`pt_all` parameter will be used to reduce the speed of all chunks in LTM with each processing cycle. In CIPAL v1.0.0, negative values were used to reduce processing times, whereas positive values produced an increase (i.e., chunk decay).
 
-## Benchmarks
+## Performance
 
 To assess the performance of CIPAL in Python, we measured the amount of time it took to train the model with different quantities of child-directed speech: 10,000, 100,000, and 1,000,000 utterances. For each input level, we generated 10 random samples of the [English-NA](https://talkbank.org/childes/access/Eng-NA/) collection from [CHILDES](https://talkbank.org/childes/). To provide context for these run-times, we ran identical simulations using an identical Julia version of CIPAL v1.1.0 (with the changes listed above). All simulations were run on the same Apple MacBook Pro (16-inch, November 2023, Apple M3 Max, 48 GB, macOS Tahoe 26.2), providing an "apples-to-apples" comparison. The table below shows the average run-time across the 10 samples:
 
