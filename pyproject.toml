@@ -1,0 +1,18 @@
+[project]
+name = "cipal"
+version = "1.1.0"
+authors = [
+    {name = "Andrew Jessop"},
+    {name = "Julian Pine"},
+    {name = "Fernand Gobet"},
+]
+maintainers = [{name = "Andrew Jessop"}]
+description = "Chunk-based Incremental Processing and Learning"
+license = "CC-BY-4.0"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "pandas>=3.0.0",
+    "pytest>=9.0.2",
+    "seaborn>=0.13.2",
+]
