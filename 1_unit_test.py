@@ -313,178 +313,21 @@ def test_learn_decay():
     assert round(mean(list(temp3["pt"]))) == 472
 
 
-# Test that the pt_all parameter changes learning outcome
-def test_learn_pt_all():
+# Test that increasing pt_adjust speeds up learning
+def test_learn_pt_adjust():
     w1 = "a b c"
     w2 = "d e f"
     w3 = "g h i"
     utts = [" ".join([w1, w2, w3]), " ".join([w3, w2, w1]), " ".join([w2, w3, w1])]
     ltm1 = cipal.new_ltm()
     for i in range(100):
-        cipal.learn(utts, ltm1, pt_all=0)
+        cipal.learn(utts, ltm1, pt_adjust=1)
     ltm2 = cipal.new_ltm()
     for i in range(100):
-        cipal.learn(utts, ltm2, pt_all=-0.1)
+        cipal.learn(utts, ltm2, pt_adjust=5)
     ltm3 = cipal.new_ltm()
     for i in range(100):
-        cipal.learn(utts, ltm3, pt_all=-1)
-    temp1 = cipal.ltm_to_df(ltm1)
-    temp2 = cipal.ltm_to_df(ltm2)
-    temp3 = cipal.ltm_to_df(ltm3)
-    assert list(temp1["chunks"]) != list(temp2["chunks"]) != list(temp3["chunks"])
-    assert list(temp1["chunks"]) == [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "g h",
-        "i d",
-        "e f",
-        "a b",
-        "g h i",
-        "a b c",
-        "a b c d",
-        "g h i d",
-        "g h i d e f",
-        "d e f",
-        "a b c d e f",
-        "a b c d e f g h i",
-        "g h i d e f a b c",
-        "d e f g h i",
-        "d e f g h i a b c",
-    ]
-    assert list(temp2["chunks"]) == [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "a b",
-        "c d",
-        "e f",
-        "g h",
-        "g h i",
-        "a b c",
-        "a b c d",
-        "g h i d",
-        "d e f",
-        "a b c d e f",
-        "g h i d e f",
-        "d e f g h i",
-        "d e f g h i a b c",
-        "a b c d e f g h i",
-        "g h i d e f a b c",
-        "g h i d e f a b",
-        "d e f g h",
-        "d e f g h i a b",
-        "a b c d e f g h",
-        "d e",
-        "d e f g",
-        "d e f g h i a",
-        "a b c d e",
-        "a b c d e f g",
-        "g h i d e",
-        "g h i d e f a",
-    ]
-    assert list(temp3["chunks"]) == [
-        "a",
-        "b",
-        "c",
-        "d",
-        "e",
-        "f",
-        "g",
-        "h",
-        "i",
-        "i d",
-        "e f",
-        "a b",
-        "e f g",
-        "h i",
-        "a b c",
-        "a b c d",
-        "h i d",
-        "e f g h i",
-        "h i d e f",
-        "h i d e f a b c",
-        "e f g h i a b c",
-        "a b c d e f g",
-        "d e f g",
-        "a b c d e f g h i",
-        "d e f g h i",
-        "d e f g h i a b c",
-        "g h i d",
-        "g h i d e f",
-        "g h i d e f a b c",
-        "g h",
-        "g h i d e f a b",
-        "d e",
-        "d e f",
-        "d e f g h",
-        "d e f g h i a",
-        "d e f g h i a b",
-        "a b c d e",
-        "a b c d e f",
-        "a b c d e f g h",
-        "g h i d e",
-        "g h i d e f a",
-        "g h i",
-    ]
-    assert round(mean(list(temp1["pt"]))) == 279
-    assert round(mean(list(temp2["pt"]))) == 167
-    assert round(mean(list(temp3["pt"]))) == 10
-
-
-# Test that the same results occur without the sign for pt_all
-def test_learn_pt_all_sign():
-    w1 = "a b c"
-    w2 = "d e f"
-    w3 = "g h i"
-    utts = [" ".join([w1, w2, w3]), " ".join([w3, w2, w1]), " ".join([w2, w3, w1])]
-    ltm1 = cipal.new_ltm()
-    for i in range(100):
-        cipal.learn(utts, ltm1, pt_all=-0.1)
-    ltm2 = cipal.new_ltm()
-    for i in range(100):
-        cipal.learn(utts, ltm2, pt_all=-1)
-    ltm3 = cipal.new_ltm()
-    for i in range(100):
-        cipal.learn(utts, ltm3, pt_all=0.1)
-    ltm4 = cipal.new_ltm()
-    for i in range(100):
-        cipal.learn(utts, ltm4, pt_all=1)
-    temp1 = cipal.ltm_to_df(ltm1)
-    temp2 = cipal.ltm_to_df(ltm2)
-    temp3 = cipal.ltm_to_df(ltm3)
-    temp4 = cipal.ltm_to_df(ltm4)
-    temp1.equals(temp3)
-    temp2.equals(temp4)
-
-
-# Test that increasing pt_used speeds up learning
-def test_learn_pt_used():
-    w1 = "a b c"
-    w2 = "d e f"
-    w3 = "g h i"
-    utts = [" ".join([w1, w2, w3]), " ".join([w3, w2, w1]), " ".join([w2, w3, w1])]
-    ltm1 = cipal.new_ltm()
-    for i in range(100):
-        cipal.learn(utts, ltm1, pt_used=-1)
-    ltm2 = cipal.new_ltm()
-    for i in range(100):
-        cipal.learn(utts, ltm2, pt_used=-5)
-    ltm3 = cipal.new_ltm()
-    for i in range(100):
-        cipal.learn(utts, ltm3, pt_used=-20)
+        cipal.learn(utts, ltm3, pt_adjust=20)
     temp1 = cipal.ltm_to_df(ltm1)
     temp2 = cipal.ltm_to_df(ltm2)
     temp3 = cipal.ltm_to_df(ltm3)
@@ -584,24 +427,24 @@ def test_learn_pt_used():
     assert round(mean(list(temp3["pt"]))) == 112
 
 
-# Test that the same results occur without the sign for pt_used
-def test_learn_pt_used_sign():
+# Test that the same results occur with/without the sign for pt_adjust
+def test_learn_pt_adjust_sign():
     w1 = "a b c"
     w2 = "d e f"
     w3 = "g h i"
     utts = [" ".join([w1, w2, w3]), " ".join([w3, w2, w1]), " ".join([w2, w3, w1])]
     ltm1 = cipal.new_ltm()
     for i in range(100):
-        cipal.learn(utts, ltm1, pt_used=-1)
+        cipal.learn(utts, ltm1, pt_adjust=-1)
     ltm2 = cipal.new_ltm()
     for i in range(100):
-        cipal.learn(utts, ltm2, pt_used=-20)
+        cipal.learn(utts, ltm2, pt_adjust=-20)
     ltm3 = cipal.new_ltm()
     for i in range(100):
-        cipal.learn(utts, ltm3, pt_used=1)
+        cipal.learn(utts, ltm3, pt_adjust=1)
     ltm4 = cipal.new_ltm()
     for i in range(100):
-        cipal.learn(utts, ltm4, pt_used=20)
+        cipal.learn(utts, ltm4, pt_adjust=20)
     temp1 = cipal.ltm_to_df(ltm1)
     temp2 = cipal.ltm_to_df(ltm2)
     temp3 = cipal.ltm_to_df(ltm3)
@@ -835,6 +678,10 @@ def test_learn_used_unused():
     assert round(ltm1["d e f"]) == round(ltm2["d e f"]) == 365
 
 
+# process ------------------------------------------------------------------------------
+
+
+# Test that processing items does not change LTM
 def test_process_non_mutating():
     elements = list(string.ascii_lowercase)[0:24]
     w1 = " ".join(list(string.ascii_lowercase)[0:8])
@@ -847,9 +694,6 @@ def test_process_non_mutating():
     cipal.process(items, ltm)
     temp2 = cipal.ltm_to_df(ltm)
     assert temp1.equals(temp2)
-
-
-# process ------------------------------------------------------------------------------
 
 
 # Test that CIPAL returns the elements
@@ -1630,53 +1474,16 @@ def test_pt_sigmoid():
 # adjust_pt ----------------------------------------------------------------------------
 
 
-# Test that all chunks get faster with a positive adjustment parameter
-def test_adjust_pt_all_positive():
-    pt_initial = 1200
-    pt_ceiling = 10
-    pt_all = 10  # Positive adjustment parameter
-    pt_used = 0
-    elements = ["a", "b", "c", "d", "e"]
-    ltm = cipal.new_ltm()
-    ltm.update({x: 600 for x in elements})
-    stm = {"chunks": ["a", "b", "c"], "process": [200] * 3, "decay": [200] * 3}
-    cipal.adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling)
-    temp = cipal.ltm_to_df(ltm)
-    assert all(x == 594 for x in temp["pt"])
-    cipal.adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling)
-    temp = cipal.ltm_to_df(ltm)
-    assert all(round(x) == 588 for x in temp["pt"])
-
-
-# Test that the results are the same with a negative parameter
-def test_adjust_pt_all_negative():
-    pt_initial = 1200
-    pt_ceiling = 10
-    pt_all = -10  # Negative adjustment parameter
-    pt_used = 0
-    elements = ["a", "b", "c", "d", "e"]
-    ltm = cipal.new_ltm()
-    ltm.update({x: 600 for x in elements})
-    stm = {"chunks": ["a", "b", "c"], "process": [200] * 3, "decay": [200] * 3}
-    cipal.adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling)
-    temp = cipal.ltm_to_df(ltm)
-    assert all(x == 594 for x in temp["pt"])
-    cipal.adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling)
-    temp = cipal.ltm_to_df(ltm)
-    assert all(round(x) == 588 for x in temp["pt"])
-
-
 # Test that only A, B, and C get faster
-def test_adjust_pt_used_positive():
+def test_adjust_pt_positive():
     pt_initial = 1200
     pt_ceiling = 10
-    pt_all = 0
-    pt_used = 10  # Positive adjustment parameter
+    pt_adjust = 10  # Positive adjustment parameter
     elements = ["a", "b", "c", "d", "e"]
     ltm = cipal.new_ltm()
     ltm.update({x: 600 for x in elements})
     stm = {"chunks": ["a", "b", "c"], "process": [200] * 3, "decay": [200] * 3}
-    cipal.adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling)
+    cipal.adjust_pt(ltm, stm, pt_adjust, pt_initial, pt_ceiling)
     assert ltm["a"] == 594
     assert ltm["b"] == 594
     assert ltm["c"] == 594
@@ -1685,16 +1492,15 @@ def test_adjust_pt_used_positive():
 
 
 # Test that the results are the same with a negative parameter
-def test_adjust_pt_used_negative():
+def test_adjust_pt_negative():
     pt_initial = 1200
     pt_ceiling = 10
-    pt_all = 0
-    pt_used = -10  # Negative adjustment parameter
+    pt_adjust = -10  # Negative adjustment parameter
     elements = ["a", "b", "c", "d", "e"]
     ltm = cipal.new_ltm()
     ltm.update({x: 600 for x in elements})
     stm = {"chunks": ["a", "b", "c"], "process": [200] * 3, "decay": [200] * 3}
-    cipal.adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling)
+    cipal.adjust_pt(ltm, stm, pt_adjust, pt_initial, pt_ceiling)
     assert ltm["a"] == 594
     assert ltm["b"] == 594
     assert ltm["c"] == 594
@@ -1706,21 +1512,24 @@ def test_adjust_pt_used_negative():
 def test_adjust_pt_ceiling():
     pt_initial = 1200
     pt_ceiling = 590
-    pt_all = -50
-    pt_used = 0
+    pt_adjust = -50
     elements = ["a", "b", "c", "d", "e"]
     ltm = cipal.new_ltm()
     ltm.update({x: 600 for x in elements})
-    stm = {"chunks": ["a", "b", "c"], "process": [200] * 3, "decay": [200] * 3}
-    cipal.adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling)
+    stm = {
+        "chunks": ["a", "b", "c", "d", "e"],
+        "process": [200] * 5,
+        "decay": [200] * 5,
+    }
+    cipal.adjust_pt(ltm, stm, pt_adjust, pt_initial, pt_ceiling)
     temp = cipal.ltm_to_df(ltm)
     assert all(x == 590 for x in temp["pt"])
     pt_ceiling = 700
-    cipal.adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling)
+    cipal.adjust_pt(ltm, stm, pt_adjust, pt_initial, pt_ceiling)
     temp = cipal.ltm_to_df(ltm)
     assert all(x == 700 for x in temp["pt"])
     pt_ceiling = 1000
-    cipal.adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling)
+    cipal.adjust_pt(ltm, stm, pt_adjust, pt_initial, pt_ceiling)
     temp = cipal.ltm_to_df(ltm)
     assert all(x == 1000 for x in temp["pt"])
 

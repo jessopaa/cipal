@@ -2,7 +2,6 @@
 
 Chunk-based Incremental Processing and Learning (CIPAL)
 Authors: Andrew Jessop, Julian Pine, and Fernand Gobet
-Version: 1.1.0
 
 """
 
@@ -16,8 +15,7 @@ def learn(
     ltm,
     speech_rate=160,
     decay_rate=800,
-    pt_used=-5.0,
-    pt_all=0.0,
+    pt_adjust=5.0,
     pt_initial=1200.0,
     pt_ceiling=10.0,
 ):
@@ -36,7 +34,7 @@ def learn(
                 recode = find_chunks(stm["chunks"], ltm)
                 stm = compress_stm(recode, stm, ltm, t)
             stm = decay_stm(stm, t)
-            adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling)
+            adjust_pt(ltm, stm, pt_adjust, pt_initial, pt_ceiling)
 
 
 def process(items, ltm):
@@ -176,19 +174,12 @@ def pt_sigmoid(pt, mid):
     return (0.8 / (1 + exp((mid - pt) / (mid * 0.2)))) + 0.2
 
 
-def adjust_pt(ltm, stm, pt_used, pt_all, pt_initial, pt_ceiling):
-    if pt_all != 0:
-        for chunk in ltm:
-            ltm[chunk] = max(
-                ltm[chunk] + (-abs(pt_all) * pt_sigmoid(ltm[chunk], pt_initial / 2)),
-                pt_ceiling,
-            )
-    if pt_used != 0:
-        for chunk in stm["chunks"]:
-            ltm[chunk] = max(
-                ltm[chunk] + (-abs(pt_used) * pt_sigmoid(ltm[chunk], pt_initial / 2)),
-                pt_ceiling,
-            )
+def adjust_pt(ltm, stm, pt_adjust, pt_initial, pt_ceiling):
+    for chunk in stm["chunks"]:
+        ltm[chunk] = max(
+            ltm[chunk] + (-abs(pt_adjust) * pt_sigmoid(ltm[chunk], pt_initial / 2)),
+            pt_ceiling,
+        )
 
 
 def ltm_to_df(ltm):
