@@ -2,9 +2,9 @@
 
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC_BY_4.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/) [![Jessop et al. (2025)](https://img.shields.io/badge/CITE%20THIS%20PAPER!-20B800)](https://doi.org/10.1037/rev0000564)
 
-*The latest version of CIPAL has been tested with Python 3.14*
+*The latest version of CIPAL has been tested with Python 3.14.2*
 
-This repository contains the latest implementation of CIPAL in [Python](https://www.python.org/). It is intended for researchers looking for the most up-to-date version of CIPAL. You are welcome to use the materials in this repository in accordance with the *CC-BY Attribution 4.0 International* license. If you run simulations with CIPAL in your research, please cite the article below and not this repository directly:
+This repository contains the latest implementation of CIPAL in [Python](https://www.python.org/). It is intended for researchers looking for the most up-to-date version of the core CIPAL framework. You are welcome to use the materials in this repository in accordance with the *CC-BY Attribution 4.0 International* license. If you run simulations with CIPAL in your research, please cite the article below and not this repository directly:
 
 **Jessop, A., Pine, J., & Gobet, F. (2025). Chunk-based incremental processing and learning: An integrated theory of word discovery, implicit statistical learning, and speed of lexical processing. Psychological Review, 132(6), 1340–1374. <https://doi.org/10.1037/rev0000564>**
 
@@ -22,7 +22,7 @@ The code for CIPAL v1.0.0 is included in the [supplemental materials](https://os
 
 - LTM is now implemented as a hash table (i.e., a Dictionary in Python) rather than as lists. This has drastically improved the runtime for models trained with large quantities of corpus data (see *Performance* below).
 - The CIPAL module is now organised into one script for the source code (`cipal.py`), one script for the unit tests (`1_unit_test.py`), and Jupyter notebooks for the process tests (`2_process.ipynb`) and canonical results tests (`3_canonical.ipynb`). We have found that storing the functions together in one script makes it easier for others to download and navigate the source code.
-- We removed the `sop_all` parameter from the `cipal.learn` function. This parameter controlled how the processing times (PT) of all the chunks in LTM are adjusted in each processing cycle (this was set to 0 by default). A separate parameter (`sop_used`) was included to control the PT adjustments for the specific chunks stored in STM. Since universal chunk adjustments (such as chunk decay) is not part of the core CIPAL theory, we have removed this functionality from the architecture and renamed the `sop_used` parameter as `pt_adjust`.
+- We removed the `sop_all` parameter from the `cipal.learn` function. This parameter controlled how the processing times (PT) of all the chunks in LTM are adjusted in each processing cycle (set to 0 by default). A separate parameter (`sop_used`) was included to control the PT adjustments for the specific chunks stored in STM. Since universal chunk adjustments (such as chunk decay) is not part of the core CIPAL theory, we have removed this functionality from the main architecture and renamed the `sop_used` parameter as `pt_adjust`.
 - We renamed the processing time variables; they are now prefixed with "pt" rather than "sop" (e.g., `sop_initial` → `pt_initial`).
 
 ## Performance
