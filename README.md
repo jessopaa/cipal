@@ -31,9 +31,9 @@ To assess the performance of CIPAL in Python, we measured the amount of time it 
 
 | *N* utterances | Julia (secs) | Python (secs) |
 | :------------- |:------------:|:----------:   |
-| 10,000         | 0.32         |0.32           |
-| 100,000        | 2.44         |4.58           |
-| 1,000,000      | 21.9         |43.9           |
+| 10,000         | 0.32         |0.50           |
+| 100,000        | 2.44         |4.55           |
+| 1,000,000      | 21.9         |42.7           |
 
 
 ## Theory-driven testing
